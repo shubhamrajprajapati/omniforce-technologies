@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MenuController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
+})->name('home');
+
+
+
+Route::prefix('admin')->group(function(){
+    Route::view('/', 'admin.index')->name('admin');
+    Route::controller(MenuController::class)->group(function(){
+        Route::get('/menu', 'read')->name('admin-menu');
+        Route::post('/menu', 'create')->name('admin-menu');
+        Route::put('/menu', 'update')->name('admin-menu');
+        Route::put('/menu', 'delete')->name('admin-menu');
+    });
+
 });
+
